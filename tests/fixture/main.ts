@@ -8,5 +8,11 @@ import "$std/dotenv/load.ts";
 
 import { start } from "$fresh/server.ts";
 import manifest from "./fresh.gen.ts";
+import kvPlugin, { KvPluginOptions } from "../../plugin/kv_admin.ts";
+import * as path from "$std/path/mod.ts";
 
-await start(manifest);
+const options: KvPluginOptions = {
+  modelPath: path.join(path.dirname(import.meta.url), "types.ts"),
+};
+
+await start(manifest, { plugins: [await kvPlugin(options)] });

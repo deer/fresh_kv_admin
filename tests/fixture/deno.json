@@ -12,7 +12,8 @@
     "@preact/signals": "https://esm.sh/*@preact/signals@1.1.3",
     "@preact/signals-core": "https://esm.sh/*@preact/signals-core@1.2.3",
     "$std/": "https://deno.land/std@0.190.0/",
-    "pentagon/": "https://deno.land/x/pentagon@v0.1.2/"
+    "pentagon/": "https://deno.land/x/pentagon@v0.1.2/",
+    "z": "https://deno.land/x/zod@v3.21.4/mod.ts"
   },
   "compilerOptions": {
     "jsx": "react-jsx",
