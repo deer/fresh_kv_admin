@@ -10,20 +10,20 @@ export const User = z.object({
 
 export const Order = z.object({
   id: z.string().uuid().describe("primary"),
-  createdAt: z.date(),
+  createdAt: z.coerce.date(),
   name: z.string(),
   userId: z.string().uuid(),
 });
 
 export const Post = z.object({
   id: z.string().uuid().describe("primary"),
-  createdAt: z.date(),
+  createdAt: z.coerce.date(),
   title: z.string(),
 });
 
 export const Category = z.object({
   id: z.string().uuid().describe("primary"),
-  createdAt: z.date(),
+  createdAt: z.coerce.date(),
   name: z.string(),
 });
 

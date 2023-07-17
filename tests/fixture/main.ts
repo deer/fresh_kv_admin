@@ -11,8 +11,13 @@ import manifest from "./fresh.gen.ts";
 import kvPlugin, { KvPluginOptions } from "../../plugin/kv_admin.ts";
 import * as path from "$std/path/mod.ts";
 
+import twindPlugin from "$fresh/plugins/twindv1.ts";
+import twindConfig from "./twind.config.ts";
+
 const options: KvPluginOptions = {
   modelPath: path.join(path.dirname(import.meta.url), "types.ts"),
 };
 
-await start(manifest, { plugins: [await kvPlugin(options)] });
+await start(manifest, {
+  plugins: [await kvPlugin(options), twindPlugin(twindConfig)],
+});

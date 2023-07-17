@@ -3,16 +3,16 @@ import { z } from "https://deno.land/x/zod@v3.21.4/mod.ts";
 
 interface FormProps extends PageProps {
   model: z.ZodObject<any, any, any>;
+  modelName: string;
 }
 
 export default function Form(props: FormProps) {
   const schema = props.data.schema as any as z.ZodObject<any, any, any>;
   const test = Object.keys(schema.shape);
   const item = props.data.item;
-  //   const test2 = model.shape();
   return (
     <div>
-      <form method="post">
+      <form method="post" action={`/${props.data.modelName}`}>
         {Object.keys(schema.shape).map((key) => (
           <div key={key}>
             <label>{key}</label>
