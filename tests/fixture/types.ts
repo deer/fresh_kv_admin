@@ -1,5 +1,5 @@
 import { TableDefinition } from "pentagon/src/types.ts";
-import { z } from "./deps.ts";
+import { z } from "z";
 
 export const User = z.object({
   id: z.string().uuid().describe("primary"),
