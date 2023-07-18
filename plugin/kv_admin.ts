@@ -65,7 +65,7 @@ export default async function kvPlugin(
             const item = await db[modelName].findFirst({
               where: { id: ctx.params.id },
             });
-            return ctx.render({ item, modelName });
+            return ctx.render({ item, modelName, standalone: true });
           },
           DELETE: async (_req: Request, ctx: HandlerContext) => {
             await db[modelName].delete({ where: { id: ctx.params.id } });
