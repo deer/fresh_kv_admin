@@ -2,8 +2,8 @@ import { Plugin } from "$fresh/server.ts";
 import type { HandlerContext, PluginRoute } from "$fresh/src/server/types.ts";
 import { createPentagon, TableDefinition } from "pentagon/mod.ts";
 import ModelsList from "../components/ModelsList.tsx";
-import AllItems from "../components/AllItems.tsx";
-import Item from "../components/Item.tsx";
+import AllItems from "../islands/AllItems.tsx";
+import Item from "../islands/Item.tsx";
 import Form from "../components/Form.tsx";
 
 export type KvPluginOptions = {
@@ -51,16 +51,26 @@ export default async function kvPlugin(
               headers,
             });
           },
+          DELETE: async (_req: Request, _ctx: HandlerContext) => {
+            await db[modelName].deleteMany({});
+            return new Response(null, { status: 204 }); // 204 No Content
+          },
         },
         component: AllItems,
       },
       {
         path: `/${modelName}/[id]`,
-        handler: async (_req: Request, ctx: HandlerContext) => {
-          const item = await db[modelName].findFirst({
-            where: { id: ctx.params.id },
-          });
-          return ctx.render({ item, modelName });
+        handler: {
+          GET: async (_req: Request, ctx: HandlerContext) => {
+            const item = await db[modelName].findFirst({
+              where: { id: ctx.params.id },
+            });
+            return ctx.render({ item, modelName });
+          },
+          DELETE: async (_req: Request, ctx: HandlerContext) => {
+            await db[modelName].delete({ where: { id: ctx.params.id } });
+            return new Response("deleted", { status: 200 });
+          },
         },
         component: Item,
       },
@@ -75,5 +85,14 @@ export default async function kvPlugin(
   return {
     name: "kvPlugin",
     routes: routes,
+    islands: [{
+      name: "Item",
+      path: "file:///Users/reed/code/deno_kv_admin/islands/Item.tsx",
+      component: Item,
+    }, {
+      name: "AllItems",
+      path: "file:///Users/reed/code/deno_kv_admin/islands/AllItems.tsx",
+      component: AllItems,
+    }],
   };
 }
