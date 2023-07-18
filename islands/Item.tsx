@@ -26,7 +26,10 @@ export default function Item(props: ItemProps) {
   return (
     <div className="border p-4 rounded mb-4 bg-gray-100">
       {standalone && (
-        <a href={`/${modelName}`} className="text-blue-500 mb-4 block">
+        <a
+          href={`/${modelName}`}
+          className="text-blue-500 mb-4 block hover:underline"
+        >
           Back to all {modelName}
         </a>
       )}
@@ -34,7 +37,10 @@ export default function Item(props: ItemProps) {
         <p key={key} className="mb-1">
           <strong className="mr-2">{key}:</strong> {key === "id" && !standalone
             ? (
-              <a href={`/${modelName}/${value}`} className="text-blue-500">
+              <a
+                href={`/${modelName}/${value}`}
+                className="text-blue-500 hover:underline"
+              >
                 {JSON.stringify(value)}
               </a>
             )
@@ -43,7 +49,12 @@ export default function Item(props: ItemProps) {
             )}
         </p>
       ))}
-      <button onClick={handleDelete}>Delete</button>
+      <button
+        onClick={handleDelete}
+        className="bg-red-500 text-white py-1 px-3 rounded hover:bg-red-600"
+      >
+        Delete
+      </button>
     </div>
   );
 }
