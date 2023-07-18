@@ -1,7 +1,7 @@
 import { PageProps } from "$fresh/server.ts";
 import Item from "./Item.tsx";
 
-type AllItemsProps = PageProps<{ items: any[]; modelName: string }>;
+type AllItemsProps = PageProps<{ items: { id: string }[]; modelName: string }>;
 
 export default function AllItems({ data }: AllItemsProps) {
   const handleDeleteAll = async () => {

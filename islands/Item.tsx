@@ -1,7 +1,7 @@
 import { PageProps } from "$fresh/server.ts";
 
-type ItemProps = PageProps<{ item: any; modelName: string }> | {
-  item: any;
+type ItemProps = PageProps<{ item: { id: string }; modelName: string }> | {
+  item: { id: string };
   modelName: string;
 };
 

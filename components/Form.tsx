@@ -1,8 +1,8 @@
 import { PageProps } from "$fresh/server.ts";
-import { ZodObject } from "z";
+import { ZodObject, ZodRawShape } from "z";
 
 type FormProps = PageProps<
-  { schema: ZodObject<any, any, any>; modelName: string }
+  { schema: ZodObject<ZodRawShape>; modelName: string }
 >;
 
 export default function Form(props: FormProps) {

@@ -87,12 +87,13 @@ export default async function kvPlugin(
     routes: routes,
     islands: [{
       name: "Item",
-      path: "file:///Users/reed/code/deno_kv_admin/islands/Item.tsx",
+      path: "../islands/Item.tsx",
       component: Item,
     }, {
       name: "AllItems",
-      path: "file:///Users/reed/code/deno_kv_admin/islands/AllItems.tsx",
+      path: "../islands/AllItems.tsx",
       component: AllItems,
     }],
+    location: import.meta.url,
   };
 }
