@@ -24,37 +24,38 @@ export default function Item(props: ItemProps) {
     }
   };
   return (
-    <div className="border p-4 rounded mb-4 bg-gray-100">
-      {standalone && (
-        <a
-          href={`/${modelName}`}
-          className="text-blue-500 mb-4 block hover:underline"
+    <div
+      className={standalone
+        ? "max-w-screen-xl mx-auto p-4 md:px-0 py-5 md:py-0"
+        : ""}
+    >
+      <div className="border p-4 rounded mb-4 bg-gray-100">
+        {standalone && (
+          <a href={`/${modelName}`} className="text-blue-500 mb-4 block">
+            Back to all {modelName}
+          </a>
+        )}
+        {Object.entries(item).map(([key, value]) => (
+          <p key={key} className="mb-1">
+            <strong className="mr-2">{key}:</strong>{" "}
+            {key === "id" && !standalone
+              ? (
+                <a href={`/${modelName}/${value}`} className="text-blue-500">
+                  {JSON.stringify(value)}
+                </a>
+              )
+              : (
+                JSON.stringify(value)
+              )}
+          </p>
+        ))}
+        <button
+          onClick={handleDelete}
+          className="bg-red-500 text-white px-4 py-2 rounded"
         >
-          Back to all {modelName}
-        </a>
-      )}
-      {Object.entries(item).map(([key, value]) => (
-        <p key={key} className="mb-1">
-          <strong className="mr-2">{key}:</strong> {key === "id" && !standalone
-            ? (
-              <a
-                href={`/${modelName}/${value}`}
-                className="text-blue-500 hover:underline"
-              >
-                {JSON.stringify(value)}
-              </a>
-            )
-            : (
-              JSON.stringify(value)
-            )}
-        </p>
-      ))}
-      <button
-        onClick={handleDelete}
-        className="bg-red-500 text-white py-1 px-3 rounded hover:bg-red-600"
-      >
-        Delete
-      </button>
+          Delete
+        </button>
+      </div>
     </div>
   );
 }
