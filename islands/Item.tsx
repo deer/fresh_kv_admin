@@ -50,6 +50,7 @@ export default function Item(props: ItemProps) {
           </p>
         ))}
         <button
+          id="delete-single-button"
           onClick={handleDelete}
           className="bg-red-500 text-white px-4 py-2 rounded"
         >

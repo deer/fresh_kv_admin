@@ -27,6 +27,7 @@ export default function AllItems({ data }: AllItemsProps) {
         Create new {data.modelName}
       </a>
       <button
+        id="delete-all-button"
         onClick={handleDeleteAll}
         className="mb-4 bg-red-500 text-white py-1 px-3 rounded hover:bg-red-600"
       >
