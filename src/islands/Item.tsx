@@ -1,4 +1,4 @@
-import { PageProps } from "$fresh/server.ts";
+import { PageProps } from "../../deps.ts";
 
 type ItemProps =
   | PageProps<{ item: { id: string }; modelName: string; standalone?: boolean }>

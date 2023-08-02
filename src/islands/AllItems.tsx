@@ -1,4 +1,4 @@
-import { PageProps } from "$fresh/server.ts";
+import { PageProps } from "../../deps.ts";
 import Item from "./Item.tsx";
 
 type AllItemsProps = PageProps<{ items: { id: string }[]; modelName: string }>;

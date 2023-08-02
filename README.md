@@ -1,16 +1,18 @@
-# Fresh project
+## Fresh KV Admin
 
-Your new Fresh project is ready to go. You can follow the Fresh "Getting
-Started" guide here: https://fresh.deno.dev/docs/getting-started
+This project provides a
+[Fresh Plugin](https://fresh.deno.dev/docs/concepts/plugins) that adds a KV
+admin console to your project. This is inspired by PHP My Admin.
 
-### Usage
+## Demo
 
-Make sure to install Deno: https://deno.land/manual/getting_started/installation
+The `tests/fixture` folder within this repository provides an example of this
+plugin being used to power a project.
 
-Then start the project:
+## Features
 
-```
-deno task start
-```
+CRUD operations, assuming you're using Pentagon.
 
-This will watch the project directory and restart as necessary.
+## Usage
+
+See the `tests/fixture/main.ts` if you really want to use this right now.

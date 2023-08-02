@@ -1,17 +1,17 @@
-import { Plugin } from "$fresh/server.ts";
-import type { HandlerContext, PluginRoute } from "$fresh/src/server/types.ts";
-import { createPentagon, TableDefinition } from "pentagon/mod.ts";
+import { Plugin } from "../../deps.ts";
+import type { HandlerContext, PluginRoute } from "../../deps.ts";
+import { createPentagon, TableDefinition } from "../../deps.ts";
 import ModelsList from "../components/ModelsList.tsx";
 import AllItems from "../islands/AllItems.tsx";
 import Item from "../islands/Item.tsx";
 import Form from "../components/Form.tsx";
 
-export type KvPluginOptions = {
+export type KvAdminOptions = {
   modelPath: string;
 };
 
 export async function kvAdminPlugin(
-  options: KvPluginOptions,
+  options: KvAdminOptions,
 ): Promise<Plugin> {
   const kv = await Deno.openKv();
   const { schema } = await import(options.modelPath) as {
@@ -85,15 +85,9 @@ export async function kvAdminPlugin(
   return {
     name: "kvPlugin",
     routes: routes,
-    islands: [{
-      name: "Item",
-      path: "../islands/Item.tsx",
-      component: Item,
-    }, {
-      name: "AllItems",
-      path: "../islands/AllItems.tsx",
-      component: AllItems,
-    }],
-    location: import.meta.url,
+    islands: {
+      paths: ["../islands/Item.tsx", "../islands/AllItems.tsx"],
+      baseLocation: import.meta.url,
+    },
   };
 }

@@ -8,13 +8,13 @@ import "$std/dotenv/load.ts";
 
 import { start } from "$fresh/server.ts";
 import manifest from "./fresh.gen.ts";
-import { kvAdminPlugin, KvPluginOptions } from "../../plugin/kv_admin.ts";
+import { KvAdminOptions, kvAdminPlugin } from "../../mod.ts";
 import * as path from "$std/path/mod.ts";
 
 import twindPlugin from "$fresh/plugins/twindv1.ts";
 import twindConfig from "./twind.config.ts";
 
-const options: KvPluginOptions = {
+const options: KvAdminOptions = {
   modelPath: path.join(path.dirname(import.meta.url), "types.ts"),
 };
 

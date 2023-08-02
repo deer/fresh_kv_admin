@@ -1,6 +1,12 @@
-import { PageProps } from "$fresh/server.ts";
-import { ZodDate, ZodObject, ZodRawShape, ZodString, ZodTypeAny } from "z";
-import * as uuid from "$std/uuid/mod.ts";
+import { PageProps } from "../../deps.ts";
+import {
+  ZodDate,
+  ZodObject,
+  ZodRawShape,
+  ZodString,
+  ZodTypeAny,
+} from "../../deps.ts";
+import { uuid } from "../../deps.ts";
 
 type FormProps = PageProps<
   { schema: ZodObject<ZodRawShape>; modelName: string }
