@@ -1,8 +1,8 @@
 {
   "lock": false,
   "tasks": {
-    "start": "deno run -A --watch=static/,routes/ dev.ts",
-    "update": "deno run -A -r https://fresh.deno.dev/update ."
+    "test": "deno test -A --parallel",
+    "fixture": "deno run --unstable -A tests/fixture/dev.ts"
   },
   "imports": {
     "$fresh/": "https://raw.githubusercontent.com/deer/fresh/684d7c705ef13d885b4ee84cf20740aa6f45f82a/",

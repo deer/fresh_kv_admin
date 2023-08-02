@@ -10,7 +10,7 @@ export type KvPluginOptions = {
   modelPath: string;
 };
 
-export default async function kvPlugin(
+export async function kvAdminPlugin(
   options: KvPluginOptions,
 ): Promise<Plugin> {
   const kv = await Deno.openKv();

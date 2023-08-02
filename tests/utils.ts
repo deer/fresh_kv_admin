@@ -17,6 +17,10 @@ export async function withPageName(
 ) {
   const { lines, serverProcess, address } = await startFreshServer({
     args: ["run", "-A", "--unstable", name],
+    env: {
+      DENO_UNSTABLE_COVERAGE_DIR: "cov2",
+      DENO_DEPLOYMENT_ID: "dummy_id",
+    },
   });
 
   try {
@@ -31,8 +35,6 @@ export async function withPageName(
     }
   } finally {
     await lines.cancel();
-
-    serverProcess.kill("SIGTERM");
 
     // Wait until the process exits
     await serverProcess.status;
@@ -53,7 +55,6 @@ async function spawnServer(
   options: Deno.CommandOptions,
   expectErrors = false,
 ) {
-  Deno.env.set("DENO_DEPLOYMENT_ID", "dummy id");
   const serverProcess = new Deno.Command(Deno.execPath(), {
     ...options,
     stdin: "null",
