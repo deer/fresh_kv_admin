@@ -26,7 +26,7 @@ export const Category = z.object({
   name: z.string(),
 });
 
-export const schema: Record<string, TableDefinition> = {
+export const pentagonSchema: Record<string, TableDefinition> = {
   users: {
     schema: User,
     relations: {

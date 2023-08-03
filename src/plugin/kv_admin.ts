@@ -1,47 +1,102 @@
 import { Plugin } from "../../deps.ts";
-import type { HandlerContext, PluginRoute } from "../../deps.ts";
+import type { HandlerContext, PluginRoute, ZodObject } from "../../deps.ts";
 import { createPentagon, TableDefinition } from "../../deps.ts";
 import ModelsList from "../components/ModelsList.tsx";
 import AllItems from "../islands/AllItems.tsx";
 import Item from "../islands/Item.tsx";
 import Form from "../components/Form.tsx";
+export interface ConnectorSchema<T> {
+  modelName: string;
+  zodSchema: ZodObject<any>;
+  create: (data: any) => Promise<T>;
+  read: (id: string) => Promise<T>;
+  readAll: () => Promise<T[]>;
+  update: (id: string, data: any) => Promise<T>;
+  delete: (id: string) => Promise<void>;
+  deleteAll: () => Promise<void>;
+}
+export interface Connector {
+  schemas: ConnectorSchema<any>[];
+}
+
+export class PentagonConnector implements Connector {
+  schemas: ConnectorSchema<any>[];
+
+  private constructor(schemas: ConnectorSchema<any>[]) {
+    this.schemas = schemas;
+  }
+
+  static async create(kv: any, modelPath: string): Promise<PentagonConnector> {
+    const dbModule = await import(modelPath);
+    const { pentagonSchema } = dbModule as {
+      pentagonSchema: Record<string, TableDefinition>;
+    };
+
+    const db = createPentagon(kv, pentagonSchema);
+
+    const schemas: ConnectorSchema<any>[] = Object.entries(pentagonSchema).map((
+      [modelName, table],
+    ) => ({
+      modelName: modelName,
+      zodSchema: table.schema,
+      create: async (data) => await db[modelName].create({ data }),
+      read: async (id) => await db[modelName].findFirst({ where: { id: id } }),
+      readAll: async () => await db[modelName].findMany({}),
+      update: async (id, data) =>
+        await db[modelName].update({ where: { id: id }, data }),
+      delete: async (id) => {
+        await db[modelName].delete({ where: { id: id } });
+      },
+      deleteAll: async () => {
+        await db[modelName].deleteMany({});
+      },
+    }));
+
+    return new PentagonConnector(schemas);
+  }
+}
 
 export type KvAdminOptions = {
   modelPath: string;
+  connector?: Connector;
 };
 
 export async function kvAdminPlugin(
   options: KvAdminOptions,
 ): Promise<Plugin> {
   const kv = await Deno.openKv();
-  const { schema } = await import(options.modelPath) as {
-    schema: Record<string, TableDefinition>;
-  };
-  const db = createPentagon(kv, schema);
+
+  const connector: Connector = options.connector ||
+    await PentagonConnector.create(kv, options.modelPath);
 
   const routes: PluginRoute[] = [];
-  for (const [modelName, table] of Object.entries(schema)) {
+  for (const schema of connector.schemas) {
+    const modelName = schema.modelName;
     routes.push(
       {
         path: `/${modelName}/new`,
-        handler: (_req, ctx) => ctx.render({ schema: table.schema, modelName }),
+        handler: (_req, ctx) =>
+          ctx.render({ schema: schema.zodSchema, modelName }),
         component: Form,
       },
       {
         path: `/${modelName}`,
         handler: {
           GET: async (_req, ctx) => {
-            const items = await db[modelName].findMany({});
+            const items = await schema.readAll();
             return ctx.render({ items, modelName });
           },
           POST: async (req: Request, _ctx: HandlerContext) => {
             const form = await req.formData();
             const data = Object.fromEntries(form);
-            let item = await db[modelName].findFirst({
-              where: { id: data.id },
-            });
-            if (!item) {
-              item = await db[modelName].create({ data });
+            let item;
+            try {
+              item = await schema.read(data.id as string);
+              if (!item) {
+                item = await schema.create(data);
+              }
+            } catch (_error) {
+              item = await schema.create(data);
             }
 
             const headers = new Headers();
@@ -52,7 +107,7 @@ export async function kvAdminPlugin(
             });
           },
           DELETE: async (_req: Request, _ctx: HandlerContext) => {
-            await db[modelName].deleteMany({});
+            await schema.deleteAll();
             return new Response(null, { status: 204 }); // 204 No Content
           },
         },
@@ -62,13 +117,11 @@ export async function kvAdminPlugin(
         path: `/${modelName}/[id]`,
         handler: {
           GET: async (_req: Request, ctx: HandlerContext) => {
-            const item = await db[modelName].findFirst({
-              where: { id: ctx.params.id },
-            });
+            const item = await schema.read(ctx.params.id);
             return ctx.render({ item, modelName, standalone: true });
           },
           DELETE: async (_req: Request, ctx: HandlerContext) => {
-            await db[modelName].delete({ where: { id: ctx.params.id } });
+            await schema.delete(ctx.params.id);
             return new Response("deleted", { status: 200 });
           },
         },
@@ -76,7 +129,10 @@ export async function kvAdminPlugin(
       },
       {
         path: "/models",
-        handler: (_req, ctx) => ctx.render({ models: Object.keys(schema) }),
+        handler: (_req, ctx) =>
+          ctx.render({
+            models: connector.schemas.map((s) => s.modelName),
+          }),
         component: ModelsList,
       },
     );

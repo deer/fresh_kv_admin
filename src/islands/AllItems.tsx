@@ -15,7 +15,7 @@ export default function AllItems({ data }: AllItemsProps) {
     }
   };
   return (
-    <div className="max-w-screen-xl mx-auto px-4 md:px-0 py-5 md:py-0">
+    <div className="max-w-screen-xl mx-0 px-4 md:px-0 py-5 md:py-0">
       <a href="/models" className="text-blue-500 mb-4 block hover:underline">
         Back to all models
       </a>
@@ -29,7 +29,7 @@ export default function AllItems({ data }: AllItemsProps) {
       <button
         id="delete-all-button"
         onClick={handleDeleteAll}
-        className="mb-4 bg-red-500 text-white py-1 px-3 rounded hover:bg-red-600"
+        className="mb-4 bg-red-500 py-1 px-3 rounded hover:bg-red-600"
       >
         Delete All
       </button>

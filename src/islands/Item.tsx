@@ -26,10 +26,10 @@ export default function Item(props: ItemProps) {
   return (
     <div
       className={standalone
-        ? "max-w-screen-xl mx-auto p-4 md:px-0 py-5 md:py-0"
+        ? "max-w-screen-xl p-4 md:px-0 py-5 md:py-0"
         : ""}
     >
-      <div className="border p-4 rounded mb-4 bg-gray-100">
+      <div className="border p-4 rounded mb-4">
         {standalone && (
           <a href={`/${modelName}`} className="text-blue-500 mb-4 block">
             Back to all {modelName}
@@ -52,7 +52,7 @@ export default function Item(props: ItemProps) {
         <button
           id="delete-single-button"
           onClick={handleDelete}
-          className="bg-red-500 text-white px-4 py-2 rounded"
+          className="bg-red-500 px-4 py-2 rounded"
         >
           Delete
         </button>
