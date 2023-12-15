@@ -1,7 +1,7 @@
 import {
   TextLineStream,
-} from "https://deno.land/std@0.193.0/streams/text_line_stream.ts";
-import { delay } from "https://deno.land/std@0.193.0/async/delay.ts";
+} from "https://deno.land/std@0.208.0/streams/text_line_stream.ts";
+import { delay } from "https://deno.land/std@0.208.0/async/delay.ts";
 import {
   default as puppeteer,
   Page,

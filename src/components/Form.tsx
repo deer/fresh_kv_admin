@@ -26,7 +26,11 @@ export default function Form(props: FormProps) {
   return (
     <div className="max-w-screen-xl mx-auto px-4 md:px-0 py-5 md:py-0">
       <h1 className="text-2xl mb-4">Create new {props.data.modelName}</h1>
-      <form method="post" action={`/${props.data.modelName}`} className="max-w-screen-lg">
+      <form
+        method="post"
+        action={`/${props.data.modelName}`}
+        className="max-w-screen-lg"
+      >
         {Object.entries(schema.shape).map(([key, value]) => (
           <div key={key} className="mb-4">
             <label className="block mb-2">{key}</label>

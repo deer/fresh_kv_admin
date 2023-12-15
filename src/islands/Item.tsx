@@ -25,9 +25,7 @@ export default function Item(props: ItemProps) {
   };
   return (
     <div
-      className={standalone
-        ? "max-w-screen-xl p-4 md:px-0 py-5 md:py-0"
-        : ""}
+      className={standalone ? "max-w-screen-xl p-4 md:px-0 py-5 md:py-0" : ""}
     >
       <div className="border p-4 rounded mb-4">
         {standalone && (

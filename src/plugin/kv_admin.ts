@@ -1,5 +1,6 @@
+// deno-lint-ignore-file no-explicit-any
 import { Plugin } from "../../deps.ts";
-import type { HandlerContext, PluginRoute, ZodObject } from "../../deps.ts";
+import type { FreshContext, PluginRoute, ZodObject } from "../../deps.ts";
 import { createPentagon, TableDefinition } from "../../deps.ts";
 import ModelsList from "../components/ModelsList.tsx";
 import AllItems from "../islands/AllItems.tsx";
@@ -86,7 +87,7 @@ export async function kvAdminPlugin(
             const items = await schema.readAll();
             return ctx.render({ items, modelName });
           },
-          POST: async (req: Request, _ctx: HandlerContext) => {
+          POST: async (req: Request, _ctx: FreshContext) => {
             const form = await req.formData();
             const data = Object.fromEntries(form);
             let item;
@@ -106,7 +107,7 @@ export async function kvAdminPlugin(
               headers,
             });
           },
-          DELETE: async (_req: Request, _ctx: HandlerContext) => {
+          DELETE: async (_req: Request, _ctx: FreshContext) => {
             await schema.deleteAll();
             return new Response(null, { status: 204 }); // 204 No Content
           },
@@ -116,11 +117,11 @@ export async function kvAdminPlugin(
       {
         path: `/${modelName}/[id]`,
         handler: {
-          GET: async (_req: Request, ctx: HandlerContext) => {
+          GET: async (_req: Request, ctx: FreshContext) => {
             const item = await schema.read(ctx.params.id);
             return ctx.render({ item, modelName, standalone: true });
           },
-          DELETE: async (_req: Request, ctx: HandlerContext) => {
+          DELETE: async (_req: Request, ctx: FreshContext) => {
             await schema.delete(ctx.params.id);
             return new Response("deleted", { status: 200 });
           },

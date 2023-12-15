@@ -3,8 +3,10 @@
   "tasks": {
     "test": "deno test -A --parallel",
     "fixture": "deno run --unstable -A tests/fixture/dev.ts",
-    "check:types": "deno check **/*.ts && deno check **/*.tsx"
+    "check:types": "deno check **/*.ts && deno check **/*.tsx",
+    "ok": "deno fmt --check && deno lint && deno task check:types && deno task test"
   },
+  "importMap": "./.vscode/import_map.json",
   "exclude": ["tests/fixture"],
   "compilerOptions": {
     "jsx": "react-jsx",

@@ -1,13 +1,12 @@
-export * as preact from "https://esm.sh/preact@10.15.1";
+export * as preact from "https://esm.sh/preact@10.19.2";
 export type {
   AppProps,
-  HandlerContext,
+  FreshContext,
   Handlers,
-  MiddlewareHandlerContext,
   PageProps,
   Plugin,
   PluginRoute,
-} from "https://raw.githubusercontent.com/deer/fresh/feat_plugin_islands/server.ts";
+} from "https://deno.land/x/fresh@1.6.1/server.ts";
 export { createPentagon } from "https://deno.land/x/pentagon@v0.1.2/mod.ts";
 export type { TableDefinition } from "https://deno.land/x/pentagon@v0.1.2/mod.ts";
 export {
@@ -19,4 +18,4 @@ export type {
   ZodRawShape,
   ZodTypeAny,
 } from "https://deno.land/x/zod@v3.21.4/mod.ts";
-export * as uuid from "https://deno.land/std@0.195.0/uuid/mod.ts";
+export * as uuid from "https://deno.land/std@0.208.0/uuid/mod.ts";
